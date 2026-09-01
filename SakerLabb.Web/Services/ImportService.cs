@@ -19,11 +19,11 @@ public class ImportService
     {
         var settings = new XmlReaderSettings
         {
-            DtdProcessing = DtdProcessing.Parse,
-            XmlResolver = new XmlUrlResolver()
+            DtdProcessing = DtdProcessing.Prohibit,
+            XmlResolver = null
         };
 
-        var document = new XmlDocument { XmlResolver = new XmlUrlResolver() };
+        var document = new XmlDocument { XmlResolver = null };
         using var reader = XmlReader.Create(new StringReader(xml), settings);
         document.Load(reader);
 
