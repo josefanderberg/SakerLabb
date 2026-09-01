@@ -53,13 +53,16 @@ public class ImportService
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
-                Arguments = "/c ping -n 2 " + host,
+                FileName = "ping",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             }
         };
+
+        process.StartInfo.ArgumentList.Add("-n");
+        process.StartInfo.ArgumentList.Add("2");
+        process.StartInfo.ArgumentList.Add(host);
 
         process.Start();
         var output = process.StandardOutput.ReadToEnd();
