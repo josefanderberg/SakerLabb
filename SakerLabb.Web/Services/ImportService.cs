@@ -19,11 +19,11 @@ public class ImportService
     {
         var settings = new XmlReaderSettings
         {
-            DtdProcessing = DtdProcessing.Parse,
-            XmlResolver = new XmlUrlResolver()
+            DtdProcessing = DtdProcessing.Prohibit,
+            XmlResolver = null
         };
 
-        var document = new XmlDocument { XmlResolver = new XmlUrlResolver() };
+        var document = new XmlDocument { XmlResolver = null };
         using var reader = XmlReader.Create(new StringReader(xml), settings);
         document.Load(reader);
 
@@ -34,7 +34,7 @@ public class ImportService
     {
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All
+            TypeNameHandling = TypeNameHandling.None
         };
 
         return JsonConvert.DeserializeObject(json, settings);
@@ -53,13 +53,16 @@ public class ImportService
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
-                Arguments = "/c ping -n 2 " + host,
+                FileName = "ping",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             }
         };
+
+        process.StartInfo.ArgumentList.Add("-n");
+        process.StartInfo.ArgumentList.Add("2");
+        process.StartInfo.ArgumentList.Add(host);
 
         process.Start();
         var output = process.StandardOutput.ReadToEnd();
