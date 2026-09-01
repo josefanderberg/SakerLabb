@@ -34,7 +34,7 @@ public class ImportService
     {
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All
+            TypeNameHandling = TypeNameHandling.None
         };
 
         return JsonConvert.DeserializeObject(json, settings);
